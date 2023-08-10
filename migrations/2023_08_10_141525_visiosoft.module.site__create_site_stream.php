@@ -22,7 +22,7 @@ class VisiosoftModuleSiteCreateSiteStream extends Migration
         'slug' => 'site',
         'title_column' => 'site_id',
         'translatable' => false,
-        'versionable' => false,
+        'versionable' => true,
         'trashable' => true,
         'searchable' => true,
         'sortable' => false,
