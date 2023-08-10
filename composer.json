@@ -1,0 +1,19 @@
+{
+  "name": "visiosoft/site-module",
+  "type": "streams-addon",
+  "authors": [
+    {
+      "name": "Vedat Akdoğan",
+      "email": "vedat@visiosoft.com.tr",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Visiosoft\\SiteModule\\": "src/"
+    }
+  },
+  "require": {
+    "visiosoft/server-module": "*"
+  }
+}
