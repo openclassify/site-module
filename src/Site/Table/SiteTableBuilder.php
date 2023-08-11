@@ -1,9 +1,15 @@
 <?php namespace Visiosoft\SiteModule\Site\Table;
 
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
+use Illuminate\Database\Eloquent\Builder;
 
 class SiteTableBuilder extends TableBuilder
 {
+
+    public function onQuerying(Builder $query)
+    {
+        $query->where('panel', false);
+    }
 
     /**
      * The table views.
@@ -24,7 +30,14 @@ class SiteTableBuilder extends TableBuilder
      *
      * @var array|string
      */
-    protected $columns = [];
+    protected $columns = [
+        'username',
+        'aliases' => [
+            'wrapper' => '{{ count(entry.aliases) }}'
+        ],
+        'server',
+        'ip'
+    ];
 
     /**
      * The table buttons.

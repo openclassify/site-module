@@ -70,7 +70,7 @@ class VisiosoftModuleSiteCreateSiteStream extends Migration
             'unique' => true,
             'required' => true,
         ],
-        'server_id' => [
+        'server' => [
             'required' => true,
         ],
         'username' => [

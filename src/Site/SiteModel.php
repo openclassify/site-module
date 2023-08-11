@@ -1,18 +1,19 @@
 <?php namespace Visiosoft\SiteModule\Site;
 
+use Visiosoft\ServerModule\Server\ServerModel;
+use Visiosoft\SiteModule\Alias\AliasModel;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 use Anomaly\Streams\Platform\Model\Site\SiteSiteEntryModel;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class SiteModel extends SiteSiteEntryModel implements SiteInterface
 {
-    use HasFactory;
-
-    /**
-     * @return SiteFactory
-     */
-    protected static function newFactory()
+    public function server()
     {
-        return SiteFactory::new();
+        return $this->belongsTo(ServerModel::class);
+    }
+
+    public function aliases()
+    {
+        return $this->hasMany(AliasModel::class);
     }
 }
