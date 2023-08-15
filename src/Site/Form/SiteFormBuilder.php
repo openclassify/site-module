@@ -4,14 +4,6 @@ use Anomaly\Streams\Platform\Ui\Form\FormBuilder;
 
 class SiteFormBuilder extends FormBuilder
 {
-
-    /**
-     * The form fields.
-     *
-     * @var array|string
-     */
-    protected $fields = [];
-
     /**
      * Additional validation rules.
      *
@@ -47,7 +39,10 @@ class SiteFormBuilder extends FormBuilder
      *
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'title' => 'visiosoft.module.site::button.new_site',
+        'description' => 'visiosoft.module.site::message.create_form_description'
+    ];
 
     /**
      * The form sections.

@@ -22,7 +22,7 @@ class VisiosoftModuleSiteCreateAliasesStream extends Migration
         'slug' => 'aliases',
         'title_column' => 'domain',
         'translatable' => false,
-        'versionable' => false,
+        'versionable' => true,
         'trashable' => true,
         'searchable' => true,
         'sortable' => false,
