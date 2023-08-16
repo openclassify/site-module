@@ -48,12 +48,22 @@ class SiteModuleServiceProvider extends AddonServiceProvider
      * @type array|null
      */
     protected $routes = [
-        'admin/site/aliases'           => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@index',
-        'admin/site/aliases/create'    => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@create',
+        'admin/site/aliases' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@index',
+        'admin/site/aliases/create' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@create',
         'admin/site/aliases/edit/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@edit',
-        'admin/site'           => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@index',
-        'admin/site/create'    => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@create',
+        'admin/site' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@index',
+        'admin/site/create' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@create',
         'admin/site/edit/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@edit',
+        'admin/site/info/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@info',
+        'admin/site/reset_mysql_password/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@resetMysqlPassword',
+        'admin/site/reset_ssh_password/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@resetSshPassword',
+        'sh/newsite' => 'Visiosoft\SiteModule\Http\Controller\SiteController@setup',
+        'sh/delsite' => 'Visiosoft\SiteModule\Http\Controller\SiteController@deleteSite',
+        '/conf/host/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\SiteController@getNginxConfig',
+        '/conf/php/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\SiteController@getPhpConfig',
+        '/conf/nginx/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\SiteController@getCustomNginxConfig',
+        '/conf/supervisor/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\SiteController@getSupervisorConfig',
+        '/conf/alias/{aliasID}' => 'Visiosoft\SiteModule\Http\Controller\AliasController@getNginxConfig'
     ];
 
     /**

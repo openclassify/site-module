@@ -26,35 +26,14 @@ class SiteTableBuilder extends TableBuilder
     protected $filters = [];
 
     /**
-     * The table columns.
-     *
-     * @var array|string
-     */
-    protected $columns = [
-        'username',
-        'aliases' => [
-            'wrapper' => '{{ count(entry.aliases) }}'
-        ],
-        'server',
-        'ip'
-    ];
-
-    /**
-     * The table buttons.
-     *
-     * @var array|string
-     */
-    protected $buttons = [
-        'edit'
-    ];
-
-    /**
      * The table actions.
      *
      * @var array|string
      */
     protected $actions = [
-        'delete'
+        'delete' => [
+            'handler' => \Visiosoft\SiteModule\Site\Table\Handler\Delete::class,
+        ],
     ];
 
     /**

@@ -1,5 +1,7 @@
 <?php namespace Visiosoft\SiteModule\Alias;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
 
@@ -21,5 +23,14 @@ class AliasRepository extends EntryRepository implements AliasRepositoryInterfac
     public function __construct(AliasModel $model)
     {
         $this->model = $model;
+    }
+
+    /**
+     * @param $aliasID
+     * @return Builder|Model|object|null
+     */
+    public function getAliasByAliasID($aliasID)
+    {
+        return $this->model->newQuery()->where('alias_id', $aliasID)->first();
     }
 }

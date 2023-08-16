@@ -24,16 +24,17 @@ class AliasTableBuilder extends TableBuilder
      *
      * @var array|string
      */
-    protected $columns = [];
+    protected $columns = [
+        'domain',
+        'site'
+    ];
 
     /**
      * The table buttons.
      *
      * @var array|string
      */
-    protected $buttons = [
-        'edit'
-    ];
+    protected $buttons = [];
 
     /**
      * The table actions.
@@ -41,7 +42,9 @@ class AliasTableBuilder extends TableBuilder
      * @var array|string
      */
     protected $actions = [
-        'delete'
+        'delete' => [
+            'handler' => \Visiosoft\SiteModule\Alias\Table\Handler\Delete::class,
+        ],
     ];
 
     /**
