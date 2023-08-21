@@ -38,4 +38,13 @@ return [
     'panel' => [
         'name' => 'Panel',
     ],
+    'domain' => [
+        'name' => "Domain"
+    ],
+    'site' => [
+        'name' => "Site"
+    ],
+    'aliases' => [
+        'name' => "Aliases"
+    ]
 ];

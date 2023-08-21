@@ -41,7 +41,8 @@ class SiteFormBuilder extends FormBuilder
      */
     protected $options = [
         'title' => 'visiosoft.module.site::button.new_site',
-        'description' => 'visiosoft.module.site::message.create_form_description'
+        'description' => 'visiosoft.module.site::message.create_form_description',
+        'redirect' => '/admin/site/info/{entry.site_id}'
     ];
 
     /**

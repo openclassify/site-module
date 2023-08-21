@@ -44,6 +44,7 @@ class VisiosoftModuleSiteCreateAliasesStream extends Migration
                 'default' => false
             ],
         ],
+        'status' => 'anomaly.field_type.integer'
     ];
 
     /**
@@ -63,6 +64,7 @@ class VisiosoftModuleSiteCreateAliasesStream extends Migration
             'required' => true,
         ],
         'ssl',
+        'status'
 
     ];
 

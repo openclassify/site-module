@@ -10,7 +10,10 @@ class AliasFormBuilder extends FormBuilder
      *
      * @var array|string
      */
-    protected $fields = [];
+    protected $fields = [
+        'site',
+        'domain'
+    ];
 
     /**
      * Additional validation rules.
