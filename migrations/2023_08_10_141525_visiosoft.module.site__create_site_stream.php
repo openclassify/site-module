@@ -24,7 +24,7 @@ class VisiosoftModuleSiteCreateSiteStream extends Migration
         'translatable' => false,
         'versionable' => true,
         'trashable' => true,
-        'searchable' => true,
+        'searchable' => false,
         'sortable' => false,
     ];
 
