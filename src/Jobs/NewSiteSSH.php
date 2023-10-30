@@ -36,6 +36,7 @@ class NewSiteSSH implements ShouldQueue
     public function handle()
     {
         $serverPassword = $this->server->getPassword();
+        $remote = str_replace('https', 'http', config('app.url'));
 
         $ssh = new SSH2($this->server->getIp(), 22);
         $ssh->login('pure', $serverPassword);
@@ -43,7 +44,7 @@ class NewSiteSSH implements ShouldQueue
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo unlink newsite');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo wget ' . config('app.url') . '/sh/newsite');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo dos2unix newsite');
-        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo bash newsite -dbr ' . $this->server->getDatabasePassword() . ' -u ' . $this->site->getUsername() . ' -p ' . $this->site->getPassword() . ' -dbp ' . $this->site->getDatabasePassword() . ' -php ' . $this->site->getPhp() . ' -id ' . $this->site->getSiteID() . ' -r ' . config('app.url') . ' -b ' . $this->site->getBasepath());
+        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo bash newsite -dbr ' . $this->server->getDatabasePassword() . ' -u ' . $this->site->getUsername() . ' -p ' . $this->site->getPassword() . ' -dbp ' . $this->site->getDatabasePassword() . ' -php ' . $this->site->getPhp() . ' -id ' . $this->site->getSiteID() . ' -r ' . $remote . ' -b ' . $this->site->getBasepath());
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo unlink newsite');
         $ssh->exec('exit');
     }
