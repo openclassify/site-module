@@ -69,7 +69,7 @@ sudo wget $REMOTE/conf/php/$SITEID -O $POOL
 sudo dos2unix $POOL
 
 CUSTOM=/etc/nginx/pure/$USER_NAME.conf
-sudo wget $REMOTE/conf/nginx -O $CUSTOM
+sudo wget $REMOTE/conf/nginx/$SITEID -O $CUSTOM
 sudo dos2unix $CUSTOM
 
 sudo chown -R www-data: /home/$USER_NAME/web
