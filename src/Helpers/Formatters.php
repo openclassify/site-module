@@ -20,4 +20,9 @@ class Formatters
 
         return $subject;
     }
+
+    public function cleanUsername($string)
+    {
+        return preg_replace('/[^a-zA-Z0-9]+/', '', $string);
+    }
 }
