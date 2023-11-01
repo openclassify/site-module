@@ -18,48 +18,58 @@ class SiteModel extends SiteSiteEntryModel implements SiteInterface
         return $this->hasMany(AliasModel::class, 'site_id', 'id');
     }
 
-    public function getUsername()
+    public function getUsername(): string
     {
         return $this->username;
     }
 
-    public function getPassword()
+    public function getPassword(): string
     {
         return $this->password;
     }
 
-    public function getDatabasePassword()
+    public function getDatabasePassword(): string
     {
         return $this->database;
     }
 
-    public function getPhp()
+    public function getPhp(): string
     {
         return $this->php;
     }
 
-    public function getBasepath()
+    public function getBasepath(): string
     {
         return $this->basepath;
     }
 
-    public function getSiteID()
+    public function getServer()
+    {
+        return $this->server;
+    }
+
+    public function getDirectoryPath(): string
+    {
+        return "home" . $this->username . "/" . $this->getUsername() . "/web";
+    }
+
+    public function getSiteID(): string
     {
         return $this->site_id;
     }
 
-    public function getDomain()
+    public function getDomain(): string
     {
         return $this->domain;
     }
 
-    public function setPassword()
+    public function setPassword(): void
     {
         $this->setAttribute('password', Str::random(24));
         $this->save();
     }
 
-    public function setDatabasePassword()
+    public function setDatabasePassword(): void
     {
         $this->setAttribute('database', Str::random(24));
         $this->save();
