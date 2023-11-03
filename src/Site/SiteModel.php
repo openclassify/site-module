@@ -50,7 +50,7 @@ class SiteModel extends SiteSiteEntryModel implements SiteInterface
 
     public function getDirectoryPath(): string
     {
-        return "home" . $this->username . "/" . $this->getUsername() . "/web";
+        return "/home" . "/" . $this->getUsername() . "/web/";
     }
 
     public function getSiteID(): string
