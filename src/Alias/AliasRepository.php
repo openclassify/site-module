@@ -33,4 +33,17 @@ class AliasRepository extends EntryRepository implements AliasRepositoryInterfac
     {
         return $this->model->newQuery()->where('alias_id', $aliasID)->first();
     }
+
+    /**
+     * @param $aliasID
+     * @param $siteID
+     * @return Builder|Model|object|null
+     */
+    public function findAliasBySiteID($aliasID, $siteID)
+    {
+        return $this->newQuery()
+            ->where('site_id', $siteID)
+            ->where('alias_id', $aliasID)
+            ->first();
+    }
 }

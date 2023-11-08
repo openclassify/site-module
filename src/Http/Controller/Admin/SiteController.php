@@ -1,6 +1,7 @@
 <?php namespace Visiosoft\SiteModule\Http\Controller\Admin;
 
 use Carbon\Carbon;
+use Visiosoft\ServerModule\Handler\PhpVersions;
 use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Jobs\SiteDbPwdSSH;
 use Visiosoft\SiteModule\Jobs\SiteUserPwdSSH;
@@ -48,15 +49,20 @@ class SiteController extends AdminController
 
     public function info($siteID, SiteRepositoryInterface $siteRepository)
     {
+        if (!$site = $siteRepository->getSiteBySiteId($siteID)) {
+            abort(404);
+        }
 
-        $site = $siteRepository->getSiteBySiteId($siteID);
         $server = $site->server;
         return $this->view->make('module::info', compact(['site', 'server']));
     }
 
     public function resetMysqlPassword($siteID, SiteRepositoryInterface $siteRepository)
     {
-        $site = $siteRepository->getSiteBySiteId($siteID);
+        if (!$site = $siteRepository->getSiteBySiteId($siteID)) {
+            abort(404);
+        }
+
         $oldPassowrd = $site->getDatabasePassword();
         $site->setDatabasePassword();
         $server = $site->server;
@@ -73,7 +79,10 @@ class SiteController extends AdminController
 
     public function resetSshPassword($siteID, SiteRepositoryInterface $siteRepository)
     {
-        $site = $siteRepository->getSiteBySiteId($siteID);
+        if (!$site = $siteRepository->getSiteBySiteId($siteID)) {
+            abort(404);
+        }
+
         $oldPassowrd = $site->getPassword();
         $site->setPassword();
         $server = $site->server;
@@ -84,6 +93,16 @@ class SiteController extends AdminController
             (new Log())->createLog('reset_mysql_password', $e);
         }
         return $this->view->make('module::info', compact(['site', 'server']));
+    }
 
+    public function show(SiteRepositoryInterface $siteRepository, $siteID)
+    {
+        if (!$site = $siteRepository->getSiteBySiteId($siteID)) {
+            abort(404);
+        }
+        $this->breadcrumbs->add($site->getSiteID(),'#');
+        $php_versions = app(PhpVersions::class)->getValues();
+
+        return $this->view->make('module::sites/show', compact('site','php_versions'));
     }
 }

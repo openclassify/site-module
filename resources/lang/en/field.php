@@ -46,5 +46,17 @@ return [
     ],
     'aliases' => [
         'name' => "Aliases"
-    ]
+    ],
+    'basic_information' => [
+        'name' => 'Basic Information',
+    ],
+    'tools' => [
+        'name' => 'Tools'
+    ],
+    'ssl_status' => [
+        'name' => 'SSL Status'
+    ],
+    'ssl_last_message' => [
+        'name' => 'SSL Last Message'
+    ],
 ];

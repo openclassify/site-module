@@ -20,23 +20,6 @@ class AliasTableBuilder extends TableBuilder
     protected $filters = [];
 
     /**
-     * The table columns.
-     *
-     * @var array|string
-     */
-    protected $columns = [
-        'domain',
-        'site'
-    ];
-
-    /**
-     * The table buttons.
-     *
-     * @var array|string
-     */
-    protected $buttons = [];
-
-    /**
      * The table actions.
      *
      * @var array|string
@@ -52,7 +35,11 @@ class AliasTableBuilder extends TableBuilder
      *
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'order_by' => [
+            'domain' => 'ASC'
+        ],
+    ];
 
     /**
      * The table assets.

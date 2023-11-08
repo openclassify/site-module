@@ -11,4 +11,11 @@ interface AliasRepositoryInterface extends EntryRepositoryInterface
      * @return Builder|Model|object|null
      */
     public function getAliasByAliasID($aliasID);
+
+    /**
+     * @param $aliasID
+     * @param $siteID
+     * @return mixed
+     */
+    public function findAliasBySiteID($aliasID, $siteID);
 }

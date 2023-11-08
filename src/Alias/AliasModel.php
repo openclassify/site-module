@@ -34,4 +34,26 @@ class AliasModel extends SiteAliasesEntryModel implements AliasInterface
     {
         return AliasStatus::getAliasStatus($this->status);
     }
+
+    public function getSSLStatus()
+    {
+        return $this->ssl;
+    }
+
+    public function setSSLStatus($status)
+    {
+        $this->setAttribute('ssl', $status);
+        $this->save();
+    }
+
+    public function setSSLStatusMessage(string $message)
+    {
+        $this->setAttribute('ssl_status_message', $message);
+        $this->save();
+    }
+
+    public function getSSLStatusMessage()
+    {
+        return $this->ssl_status_message;
+    }
 }
