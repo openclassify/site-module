@@ -122,12 +122,12 @@ class SiteController extends PublicController
 
     /**
      * @param Request $request
-     * @param string $site_id
+     * @param string $siteId
      * @return \Illuminate\Http\JsonResponse
      */
-    public function edit(string $site_id)
+    public function edit(string $siteId)
     {
-        $site = $this->siteRepository->getSiteBySiteID($site_id);
+        $site = $this->siteRepository->getSiteBySiteID($siteId);
 
         if (!$site) {
             return response()->json([
@@ -138,10 +138,10 @@ class SiteController extends PublicController
 
         if (request()->get('php')) {
             if ($site->php != request()->get('php')) {
-                $last_php = $site->php;
+                $lastPhp = $site->php;
                 $site->php = request()->get('php');
                 $site->save();
-                EditSitePhpSSH::dispatch($site, $last_php)->delay(Carbon::now()->addSeconds(10));
+                EditSitePhpSSH::dispatch($site, $lastPhp)->delay(Carbon::now()->addSeconds(10));
             }
         }
 
