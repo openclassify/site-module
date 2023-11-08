@@ -25,7 +25,7 @@ class AliasTableColumns
             ],
             'ssl_last_message' => [
                 'value' => function (EntryInterface $entry) {
-                    return AliasStatus::getAliasStatus($entry->getSSLStatusMessage());
+                    return $entry->getSSLStatusMessage();
                 },
                 'sortable' => false,
             ],

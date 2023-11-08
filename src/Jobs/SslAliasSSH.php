@@ -40,22 +40,23 @@ class SslAliasSSH implements ShouldQueue
         $ssh->login('pure', $site->server->password);
         $ssh->setTimeout(360);
 
-        $this->alias->setSSLStatusMessage(AliasStatus::SSL_STARTED);
+        $this->alias->setSSLStatusMessage(AliasStatus::getAliasStatus(AliasStatus::SSL_STARTED));
 
         try {
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo fuser -k 80/tcp');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo fuser -k 443/tcp');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl restart nginx.service');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo ufw disable');
-            $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo certbot --nginx -d ' . $this->alias->domain . ' --non-interactive --agree-tos --register-unsafely-without-email');
+            $output = $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo certbot --nginx -d ' . $this->alias->domain . ' --non-interactive --agree-tos --register-unsafely-without-email', 'sslHandler');
             $ssh->exec("echo " . $site->server->password . " | sudo -S sudo sed -i 's/443 ssl/443 ssl http2/g' /etc/nginx/sites-enabled/" . $this->alias->domain . ".conf");
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo ufw --force enable');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl restart nginx.service');
+            $ssh->exec('exit');
 
             $this->alias->setSSLStatus(true);
+            $this->alias->setSSLStatusMessage($output);
         } catch (\Exception $exception) {
-            $this->alias->setSSLStatusMessage(AliasStatus::SSL_FAIL);
+            $this->alias->setSSLStatusMessage(AliasStatus::getAliasStatus(AliasStatus::SSL_FAIL));
         }
-        $ssh->exec('exit');
     }
 }
