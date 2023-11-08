@@ -40,7 +40,7 @@ class SiteModel extends SiteSiteEntryModel implements SiteInterface
 
     public function getBasepath(): string
     {
-        return $this->basepath;
+        return $this->basepath ?? '';
     }
 
     public function getServer()
