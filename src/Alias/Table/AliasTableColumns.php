@@ -25,7 +25,7 @@ class AliasTableColumns
             ],
             'ssl_last_message' => [
                 'wrapper' => function (EntryInterface $entry) {
-                    return '<span data-toggle="tooltip" title="'.$entry->getSSLStatusMessage().'"><i class="fa fa-info-circle"></i> Hover to view</span>';
+                    return '<span data-toggle="tooltip" title="'.$entry->getSSLStatusMessage().'"><i class="fa fa-info-circle"></i> '.trans('visiosoft.module.site::field.hover_to_view.name').'</span>';
                 },
                 'sortable' => false,
             ],
