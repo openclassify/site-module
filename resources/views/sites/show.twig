@@ -1,0 +1,89 @@
+{% extends layout('default') %}
+
+{% block content %}
+
+    <style>
+        .border {
+            border: 1px solid #ddd;
+        }
+    </style>
+    <div class="container-fluid">
+        <div class="card py-3 px-2">
+            <div class="row mb-2">
+                <div class="col-xl-8">
+                    <div class="card mb-4 border">
+                        <div class="card-header card-title">
+                            <i class="fa fa-info-circle fs-fw mr-1"></i>
+                            {{ trans('module::field.basic_information.name') }}
+                        </div>
+                        <div class="card-body" style="min-height: 200px">
+                            <ul class="list-group">
+                                <li class="list-group-item">IP:<b>
+                                        <span class="ml-1">{{ site.getServer().getIp() }}</span></b></li>
+                                <li class="list-group-item">{{ trans('module::field.aliases.name') }}:<b><span
+                                                class="ml-1" id="sitealiases">{{ site.aliases().count() }}</span></b>
+                                </li>
+                                <li class="list-group-item">PHP:<b><span class="ml-1"
+                                                                         id="sitephp">{{ site.getPhp() }}</span></b>
+                                </li>
+                                <li class="list-group-item">{{ trans('module::field.basepath.name') }}:<b><span
+                                                class="ml-1">/home/</span><span>{{ site.getUsername() }}</span>/web/<span>{{ site.getBasepath() }}</span></b>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-8">
+                    <div class="card mb-4 border">
+                        <div class="card-header card-title">
+                            <i class="fa fa-globe fs-fw mr-1"></i>
+                            {{ trans('module::field.aliases.name') }}
+                        </div>
+                        <div class="card-body" style="min-height: 200px">
+                            <div style="min-height: 150px;" class="py-1">
+                                {% for aliase in site.aliases().get() %}
+                                    <span class="tag tag-info ml-1">
+                                        {{ aliase.domain }}<i data-id="{{ aliase.getAliasID() }}" style="cursor:pointer"
+                                                              class="sitealiasdel fa fa-times fs-fw ml-2"></i></span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-8">
+                    <div class="card mb-4 border">
+                        <div class="card-header card-title">
+                            <i class="fa fa-cogs fs-fw mr-1"></i>
+                            {{ trans('module::field.tools.name') }}
+                        </div>
+                        <div class="card-body" style="min-height: 200px">
+                            <div class="form-group p-1">
+                                <p>{{ trans('module::field.php.name') }}</p>
+                                <div class="input-group">
+                                    <select class="form-control" id="sitephpver">
+                                        {% for php_version in php_versions %}
+                                            <option {{ site.getPhp() == php_version|slice(4,3) ? 'selected' : '' }}
+                                                    value="{{ php_version|slice(4,3) }}">{{ php_version }}</option>
+                                        {% endfor %}
+                                    </select>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="button" id="sitephpversubmit"><i
+                                                    class="fa fa-edit"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        var site_id = "{{ site.getSiteID() }}";
+    </script>
+
+    {{ asset_script('module::js/site.js') }}
+{% endblock %}

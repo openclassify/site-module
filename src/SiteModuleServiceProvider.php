@@ -5,6 +5,7 @@ use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Visiosoft\SiteModule\Alias\AliasRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteAliasesEntryModel;
 use Visiosoft\SiteModule\Alias\AliasModel;
+use Visiosoft\SiteModule\Http\Controller\SiteController;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 use Visiosoft\SiteModule\Site\SiteRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteSiteEntryModel;
@@ -54,6 +55,7 @@ class SiteModuleServiceProvider extends AddonServiceProvider
         'admin/site' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@index',
         'admin/site/create' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@create',
         'admin/site/edit/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@edit',
+        'admin/site/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@show',
         'admin/site/info/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@info',
         'admin/site/reset_mysql_password/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@resetMysqlPassword',
         'admin/site/reset_ssh_password/{siteID}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@resetSshPassword',
@@ -187,8 +189,19 @@ class SiteModuleServiceProvider extends AddonServiceProvider
      */
     public function map(Router $router)
     {
-        // Register dynamic routes here for example.
-        // Use method injection or commands to bring in services.
+        $this->mapRouters($router);
+    }
+
+    /**
+     * @param Router $router
+     */
+    public function mapRouters(Router $router)
+    {
+        $router->group(['prefix' => 'api/site'], function () use ($router) {
+            $router->delete('/{site_id}/aliases/{alias_id}', [SiteController::class, 'destroyalias']);
+            $router->patch('/{site_id}', [SiteController::class, 'edit']);
+        });
+
     }
 
 }

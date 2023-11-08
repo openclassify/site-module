@@ -46,5 +46,11 @@ return [
     ],
     'aliases' => [
         'name' => "Aliases"
-    ]
+    ],
+    'basic_information' => [
+        'name' => 'Basic Information',
+    ],
+    'tools' => [
+        'name' => 'Tools'
+    ],
 ];
