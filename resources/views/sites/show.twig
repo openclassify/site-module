@@ -63,9 +63,9 @@
                                 <p>{{ trans('module::field.php.name') }}</p>
                                 <div class="input-group">
                                     <select class="form-control" id="sitephpver">
-                                        {% for php_version in php_versions %}
-                                            <option {{ site.getPhp() == php_version|slice(4,3) ? 'selected' : '' }}
-                                                    value="{{ php_version|slice(4,3) }}">{{ php_version }}</option>
+                                        {% for key,php_version in php_versions %}
+                                            <option {{ site.getPhp() == key ? 'selected' : '' }}
+                                                    value="{{ key }}">{{ php_version }}</option>
                                         {% endfor %}
                                     </select>
                                     <div class="input-group-append">
