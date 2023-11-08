@@ -64,7 +64,7 @@ class AliasesController extends AdminController
             abort(404);
         }
 
-        $verify = $this->dispatch(new CheckSsl("https://" . $alias->domain));
+        $verify = dispatch_sync(new CheckSsl("https://" . $alias->domain));
         $alias->setSSLStatus($verify);
 
         $this->messages->success(trans('module::message.ssl_checked'));
