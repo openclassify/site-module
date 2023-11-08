@@ -16,7 +16,7 @@ class AliasTableColumns
             'ssl_status' => [
                 'sortable' => false,
                 'wrapper' => function (EntryInterface $entry) {
-                    $icon = $entry->getSSLStatus() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+                    $icon = $entry->getSSLStatus() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times text-danger"></i>';
                     $diff = $entry->updated_at->diffForHumans();
                     $class = $entry->updated_at->diff()->days > 60 ? 'text-danger' : '';
                     return '<span>' . $icon . '</span><br><strong class="' . $class . '">' . $diff . '</strong>';
