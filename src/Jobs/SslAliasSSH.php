@@ -10,6 +10,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Visiosoft\SiteModule\Helpers\AliasStatus;
+use Visiosoft\SiteModule\Services\CheckSsl;
 
 class SslAliasSSH implements ShouldQueue
 {
@@ -47,13 +48,15 @@ class SslAliasSSH implements ShouldQueue
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo fuser -k 443/tcp');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl restart nginx.service');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo ufw disable');
-            $output = $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo certbot --nginx -d ' . $this->alias->domain . ' --non-interactive --agree-tos --register-unsafely-without-email', 'sslHandler');
+            $output = $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo certbot --nginx -d ' . $this->alias->domain . ' --non-interactive --agree-tos --register-unsafely-without-email');
             $ssh->exec("echo " . $site->server->password . " | sudo -S sudo sed -i 's/443 ssl/443 ssl http2/g' /etc/nginx/sites-enabled/" . $this->alias->domain . ".conf");
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo ufw --force enable');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl restart nginx.service');
             $ssh->exec('exit');
 
-            $this->alias->setSSLStatus(true);
+            $verify = dispatch(new CheckSsl("https://" . $this->alias->domain));
+
+            $this->alias->setSSLStatus($verify);
             $this->alias->setSSLStatusMessage($output);
         } catch (\Exception $exception) {
             $this->alias->setSSLStatusMessage(AliasStatus::getAliasStatus(AliasStatus::SSL_FAIL));

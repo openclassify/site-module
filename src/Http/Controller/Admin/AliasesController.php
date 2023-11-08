@@ -6,6 +6,7 @@ use Visiosoft\SiteModule\Alias\Form\AliasFormBuilder;
 use Visiosoft\SiteModule\Alias\Table\AliasTableBuilder;
 use Anomaly\Streams\Platform\Http\Controller\AdminController;
 use Visiosoft\SiteModule\Jobs\SslAliasSSH;
+use Visiosoft\SiteModule\Services\CheckSsl;
 
 class AliasesController extends AdminController
 {
@@ -53,6 +54,20 @@ class AliasesController extends AdminController
         SslAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(3));
 
         $this->messages->success(trans('module::message.ssl_started'));
+
+        return $this->redirect->to('/admin/site/aliases');
+    }
+
+    public function checkSSL(AliasRepositoryInterface $aliasRepository, string $aliasId)
+    {
+        if (!$alias = $aliasRepository->getAliasByAliasID($aliasId)) {
+            abort(404);
+        }
+
+        $verify = $this->dispatch(new CheckSsl("https://" . $alias->domain));
+        $alias->setSSLStatus($verify);
+
+        $this->messages->success(trans('module::message.ssl_checked'));
 
         return $this->redirect->to('/admin/site/aliases');
     }

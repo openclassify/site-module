@@ -24,8 +24,8 @@ class AliasTableColumns
                 },
             ],
             'ssl_last_message' => [
-                'value' => function (EntryInterface $entry) {
-                    return $entry->getSSLStatusMessage();
+                'wrapper' => function (EntryInterface $entry) {
+                    return '<span data-toggle="tooltip" title="'.$entry->getSSLStatusMessage().'"><i class="fa fa-info-circle"></i> Hover to view</span>';
                 },
                 'sortable' => false,
             ],
