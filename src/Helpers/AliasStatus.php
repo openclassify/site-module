@@ -2,8 +2,6 @@
 
 namespace Visiosoft\SiteModule\Helpers;
 
-use Visiosoft\SiteModule\SiteModuleInterface;
-
 abstract class AliasStatus
 {
     const WAITING = 0;
@@ -11,13 +9,15 @@ abstract class AliasStatus
     const CREATE_FAIL = 2;
     const SSL_FAIL = 3;
     const DELETE_FAIL = 4;
+    const SSL_STARTED = 5;
 
     private static array $aliases = [
         self::WAITING => 'WAITING',
         self::CREATED => 'CREATED',
         self::CREATE_FAIL => 'CREATE_FAIL',
-        self::SSL_FAIL => 'SSL_FAIL',
-        self::DELETE_FAIL => 'DELETE_FAIL'
+        self::SSL_FAIL => 'SSL Installation Failed',
+        self::DELETE_FAIL => 'DELETE_FAIL',
+        self::SSL_STARTED => 'SSL Installation Started'
     ];
 
     /**

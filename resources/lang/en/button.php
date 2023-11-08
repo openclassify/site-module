@@ -6,4 +6,5 @@ return [
     'reset_ssh_password' => "Reset Ssh Password",
     'reset_mysql_password' => "Reset Mysql Password",
     'manage' => "Manage",
+    'generate_ssl' => "Generate SSL",
 ];

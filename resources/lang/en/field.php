@@ -53,4 +53,10 @@ return [
     'tools' => [
         'name' => 'Tools'
     ],
+    'ssl_status' => [
+        'name' => 'SSL Status'
+    ],
+    'ssl_last_message' => [
+        'name' => 'SSL Last Message'
+    ],
 ];

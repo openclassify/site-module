@@ -52,6 +52,7 @@ class SiteModuleServiceProvider extends AddonServiceProvider
         'admin/site/aliases' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@index',
         'admin/site/aliases/create' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@create',
         'admin/site/aliases/edit/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@edit',
+        'admin/site/aliases/generate-ssl/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\AliasesController@generateSSL',
         'admin/site' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@index',
         'admin/site/create' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@create',
         'admin/site/edit/{id}' => 'Visiosoft\SiteModule\Http\Controller\Admin\SiteController@edit',
