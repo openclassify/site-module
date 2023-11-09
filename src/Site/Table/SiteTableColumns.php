@@ -8,8 +8,8 @@ class SiteTableColumns
     public function handle(SiteTableBuilder $builder)
     {
         $columns = [
-            'site_id',
             'username',
+            'site_id',
             'aliases' => [
                 'wrapper' => '{value.aliases}',
                 'value' => [

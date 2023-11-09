@@ -16,7 +16,7 @@ class AliasTableColumns
             'ssl_status' => [
                 'sortable' => false,
                 'wrapper' => function (EntryInterface $entry) {
-                    $icon = $entry->getSSLStatus() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times"></i>';
+                    $icon = $entry->getSSLStatus() ? '<i class="fa fa-check"></i>' : '<i class="fa fa-times text-danger"></i>';
                     $diff = $entry->updated_at->diffForHumans();
                     $class = $entry->updated_at->diff()->days > 60 ? 'text-danger' : '';
                     return '<span>' . $icon . '</span><br><strong class="' . $class . '">' . $diff . '</strong>';
@@ -24,8 +24,8 @@ class AliasTableColumns
                 },
             ],
             'ssl_last_message' => [
-                'value' => function (EntryInterface $entry) {
-                    return $entry->getSSLStatusMessage();
+                'wrapper' => function (EntryInterface $entry) {
+                    return '<span data-toggle="tooltip" title="'.$entry->getSSLStatusMessage().'"><i class="fa fa-info-circle"></i> '.trans('visiosoft.module.site::field.hover_to_view.name').'</span>';
                 },
                 'sortable' => false,
             ],
