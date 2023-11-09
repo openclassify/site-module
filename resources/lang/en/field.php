@@ -59,4 +59,7 @@ return [
     'ssl_last_message' => [
         'name' => 'SSL Last Message'
     ],
+    'hover_to_view' => [
+        'name' => 'Hover to view'
+    ],
 ];

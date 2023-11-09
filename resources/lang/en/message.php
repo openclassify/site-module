@@ -6,4 +6,5 @@ return [
     'not_found_message_default' => 'Required :name does not exists into panel',
     'not_found' => ':name not found.',
     'ssl_started' => 'SSL installation started!',
+    'ssl_checked' => 'SSL Checked!',
 ];
