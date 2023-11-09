@@ -41,7 +41,10 @@ class SiteTableBuilder extends TableBuilder
      *
      * @var array
      */
-    protected $options = [];
+    protected $options = [
+        'title' => 'visiosoft.module.site::field.basic_information.name',
+        'description' => 'visiosoft.module.site::message.site_table_description',
+    ];
 
     /**
      * The table assets.

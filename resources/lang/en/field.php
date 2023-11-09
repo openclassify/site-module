@@ -59,4 +59,7 @@ return [
     'ssl_last_message' => [
         'name' => 'SSL Last Message'
     ],
+    'update' => [
+        'name' => 'Update',
+    ],
 ];

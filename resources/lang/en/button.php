@@ -7,4 +7,5 @@ return [
     'reset_mysql_password' => "Reset Mysql Password",
     'manage' => "Manage",
     'generate_ssl' => "Generate SSL",
+    'update_site' => "Git Pull/Composer Update",
 ];

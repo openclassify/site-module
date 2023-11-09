@@ -3,8 +3,10 @@
 use Carbon\Carbon;
 use Visiosoft\ServerModule\Handler\PhpVersions;
 use Visiosoft\SiteModule\Helpers\Log;
+use Visiosoft\SiteModule\Helpers\UpdateStatus;
 use Visiosoft\SiteModule\Jobs\SiteDbPwdSSH;
 use Visiosoft\SiteModule\Jobs\SiteUserPwdSSH;
+use Visiosoft\SiteModule\Jobs\UpdateSiteSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 use Visiosoft\SiteModule\Site\Form\SiteFormBuilder;
 use Visiosoft\SiteModule\Site\Table\SiteTableBuilder;
@@ -100,9 +102,28 @@ class SiteController extends AdminController
         if (!$site = $siteRepository->getSiteBySiteId($siteID)) {
             abort(404);
         }
-        $this->breadcrumbs->add($site->getSiteID(),'#');
+        $this->breadcrumbs->add($site->getSiteID(), '#');
         $php_versions = app(PhpVersions::class)->getValues();
 
-        return $this->view->make('module::sites/show', compact('site','php_versions'));
+        return $this->view->make('module::sites/show', compact('site', 'php_versions'));
+    }
+
+    public function updateSite(SiteRepositoryInterface $siteRepository, $siteID)
+    {
+        if (!$site = $siteRepository->getSiteBySiteId($siteID)) {
+            abort(404);
+        }
+
+        $site->setUpdateStatus(UpdateStatus::STARTED);
+        try {
+            UpdateSiteSSH::dispatch($site)->delay(Carbon::now()->addSeconds(1));
+            $this->messages->success(trans('module::message.update_started'));
+        } catch (\Exception $e) {
+            (new Log())->createLog('site_update', $e);
+            $this->messages->error(trans('module::message.update_failed'));
+            $site->setUpdateStatus(UpdateStatus::FAILED);
+        }
+
+        return $this->redirect->to('/admin/site');
     }
 }

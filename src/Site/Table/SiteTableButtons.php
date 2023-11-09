@@ -18,21 +18,17 @@ class SiteTableButtons
                 'href' => false,
                 'dropdown' => [
                     'reset_mysql_password' => [
-                        'text' => "Reset Mysql Password",
                         'icon' => "fa fa-lock",
-                        'href' => function (EntryInterface $entry) {
-                            return "/admin/site/reset_mysql_password/" . $entry->site_id;
-                        },
-                        'type' => "info",
+                        'href' => "/admin/site/reset_mysql_password/{entry.site_id}",
                     ],
                     'reset_ssh_password' => [
-                        'text' => "Reset Ssh Password",
                         'icon' => "fa fa-lock",
-                        'href' => function (EntryInterface $entry) {
-                            return "/admin/site/reset_ssh_password/" . $entry->site_id;
-                        },
-                        'type' => "info",
-                    ]
+                        'href' => "/admin/site/reset_ssh_password/{entry.site_id}",
+                    ],
+                    'update_site' => [
+                        'icon' => 'fa fa-refresh',
+                        'href' => '/admin/site/update-site/{entry.site_id}'
+                    ],
                 ],
             ],
 

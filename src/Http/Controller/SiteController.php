@@ -38,6 +38,13 @@ class SiteController extends PublicController
             ->withHeaders(['Content-Type' => 'application/x-sh']);
     }
 
+    public function updateSite()
+    {
+        $config = (new Host())->getUpdateSiteScript();
+        return response($config)
+            ->withHeaders(['Content-Type' => 'application/x-sh']);
+    }
+
     /**
      * Site host configuration
      *

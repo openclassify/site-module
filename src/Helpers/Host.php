@@ -31,6 +31,14 @@ class Host
     }
 
     /**
+     * @return string
+     */
+    public function getUpdateSiteScript(): string
+    {
+        return file_get_contents($this->resourcesPath . 'scripts/updatesite.sh');
+    }
+
+    /**
      * @param string $username
      * @param string $php
      * @param string|null $domain

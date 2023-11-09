@@ -74,4 +74,23 @@ class SiteModel extends SiteSiteEntryModel implements SiteInterface
         $this->setAttribute('database', Str::random(24));
         $this->save();
     }
+
+    public function getUpdateStatus()
+    {
+        return $this->update_status;
+    }
+
+    public function getUpdateStatusMessage()
+    {
+        return $this->update_status_message;
+    }
+
+    public function setUpdateStatus($status, $status_message = null)
+    {
+        if ($status_message) {
+            $this->setAttribute('update_status_message', $status_message);
+        }
+        $this->setAttribute('update_status', $status);
+        $this->save();
+    }
 }
