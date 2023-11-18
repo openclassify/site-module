@@ -13,7 +13,9 @@ class SiteTableColumns
                 'wrapper' => '{value.aliases}',
                 'value' => [
                     'aliases' => function (EntryInterface $entry) {
-                        return count($entry->aliases) ? count($entry->aliases) : "0";
+                        if (count($entry->aliases)) {
+                            return "<small>".implode(', ', $entry->aliases->pluck('domain')->toArray())."</small>";
+                        }
                     }
                 ]
             ],
