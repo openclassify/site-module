@@ -5,6 +5,7 @@ use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Visiosoft\SiteModule\Alias\AliasRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteAliasesEntryModel;
 use Visiosoft\SiteModule\Alias\AliasModel;
+use Visiosoft\SiteModule\Http\Controller\ApiController;
 use Visiosoft\SiteModule\Http\Controller\SiteController;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 use Visiosoft\SiteModule\Site\SiteRepository;
@@ -202,6 +203,8 @@ class SiteModuleServiceProvider extends AddonServiceProvider
         $router->group(['prefix' => 'api/site'], function () use ($router) {
             $router->delete('/{site_id}/aliases/{alias_id}', [SiteController::class, 'destroyalias']);
             $router->patch('/{site_id}', [SiteController::class, 'edit']);
+
+            $router->post('/', [ApiController::class, 'create']);
         });
 
     }
