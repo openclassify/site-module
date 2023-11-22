@@ -200,7 +200,7 @@ class SiteModuleServiceProvider extends AddonServiceProvider
      */
     public function mapRouters(Router $router)
     {
-        $router->group(['prefix' => 'api/site'], function () use ($router) {
+        $router->group(['prefix' => 'api/site', 'middleware' => ['apikey']], function () use ($router) {
             $router->delete('/{site_id}/aliases/{alias_id}', [SiteController::class, 'destroyalias']);
             $router->patch('/{site_id}', [SiteController::class, 'edit']);
 

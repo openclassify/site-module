@@ -1,4 +1,4 @@
-<?php namespace Visiosoft\ServerModule\Http\Request;
+<?php namespace Visiosoft\SiteModule\Http\Request;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -16,8 +16,9 @@ class CreateSiteRequest extends FormRequest
     {
         return [
             'username' => 'required|string|unique:site_site,username',
+            'domain',
             'basepath',
-            'serverId' => 'required|integer|exists:recipes_recipe,id',
+            'serverId' => 'required|string|exists:server_server,server_id',
             'php'
         ];
     }
