@@ -15,8 +15,8 @@ class CreateSiteRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => 'required|string|unique:site_site,username',
-            'domain',
+            'username',
+            'domain' => 'required|string|unique:site_aliases,domain',
             'basepath',
             'serverId',
             'php'

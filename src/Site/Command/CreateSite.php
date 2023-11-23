@@ -13,9 +13,10 @@ use Visiosoft\SiteModule\Jobs\NewSiteSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
-class CreateSite implements ShouldQueue
+class CreateSite
+//class CreateSite implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+//    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected string $username;
     protected int $server_id;
     protected $basepath;
@@ -51,7 +52,7 @@ class CreateSite implements ShouldQueue
         try {
             NewSiteSSH::dispatch($site)->delay(Carbon::now()->addSeconds(3));
         } catch (\Exception $e) {
-            (new Log())->createLog('api_site_create', $e);
+            (new Log())->createLog('site_create', $e);
         }
 
         return $site;

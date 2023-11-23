@@ -3,6 +3,7 @@
 namespace Visiosoft\SiteModule\Http\Controller;
 
 use Anomaly\Streams\Platform\Http\Controller\ResourceController;
+use Illuminate\Support\Str;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\SiteModule\Alias\Command\CreateAlias;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
@@ -52,6 +53,11 @@ class ApiController extends ResourceController
     {
         try {
             $request->validated();
+            $username = $request->get('username');
+
+            if (!$request->get('username')) {
+                $username = Str::slug($request->get('domain'), '');
+            }
 
             /**
              * Select PHP Version
@@ -89,11 +95,9 @@ class ApiController extends ResourceController
             /**
              * Create Site
              */
-            $site = dispatch_sync(new CreateSite($request->get('username'), $server->getId(), $request->get('basepath'), $php));
+            $site = dispatch_sync(new CreateSite($username, $server->getId(), $request->get('basepath'), $php));
 
-            if ($request->has('domain')) {
-                dispatch_sync(new CreateAlias($site, $request->get('domain')));
-            }
+            dispatch_sync(new CreateAlias($site, $request->get('domain')));
 
             return response()->json([
                 'success' => true,
@@ -116,7 +120,7 @@ class ApiController extends ResourceController
                 'success' => false,
                 'message' => trans('streams::error.500.name'),
                 'errors' => [trans('streams::error.500.name')]
-            ]);
+            ], 500);
         }
     }
 }
