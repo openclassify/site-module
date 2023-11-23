@@ -18,7 +18,7 @@ class CreateSiteRequest extends FormRequest
             'username' => 'required|string|unique:site_site,username',
             'domain',
             'basepath',
-            'serverId' => 'required|string|exists:server_server,server_id',
+            'serverId',
             'php'
         ];
     }

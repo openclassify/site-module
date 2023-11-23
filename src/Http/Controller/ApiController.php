@@ -56,6 +56,9 @@ class ApiController extends ResourceController
         try {
             $request->validated();
 
+            /**
+             * Select PHP Version
+             */
             if ($request->has('php')) {
                 if (!in_array($request->get('php'), config('visiosoft.module.server::pure.phpvers'))) {
                     return response()->json([
@@ -69,22 +72,35 @@ class ApiController extends ResourceController
                 $php = config('visiosoft.module.server::pure.default_php');
             }
 
-            $server = $this->servers->findBy('server_id', $request->serverId)->where('status', 1)->first();
+            /**
+             * Select Server
+             */
+            if ($request->has('serverId')) {
+                $server = $this->servers->findBy('server_id', $request->serverId)->where('status', 1)->first();
 
-            if (!$server) {
-                return response()->json([
-                    'success' => false,
-                    'message' => trans('visiosoft.module.site::message.server_not_found_message'),
-                    'errors' => [trans('visiosoft.module.site::message.server_not_found')]
-                ], 404);
+                if (!$server) {
+                    return response()->json([
+                        'success' => false,
+                        'message' => trans('visiosoft.module.site::message.server_not_found_message'),
+                        'errors' => [trans('visiosoft.module.site::message.server_not_found')]
+                    ], 404);
+                }
+            } else {
+                $server = $this->servers->getDefaultServer();
             }
 
+            /**
+             * Create Site
+             */
             $site = dispatch_sync(new CreateSite($request->get('username'), $server->getId(), $request->get('basepath'), $php));
 
             if ($request->has('domain')) {
                 dispatch_sync(new CreateAlias($site, $request->get('domain')));
             }
 
+            /**
+             * Create Site in Server
+             */
             try {
                 NewSiteSSH::dispatch($site)->delay(Carbon::now()->addSeconds(3));
             } catch (\Exception $e) {
