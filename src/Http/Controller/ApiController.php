@@ -3,13 +3,10 @@
 namespace Visiosoft\SiteModule\Http\Controller;
 
 use Anomaly\Streams\Platform\Http\Controller\ResourceController;
-use Carbon\Carbon;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\SiteModule\Alias\Command\CreateAlias;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
-use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Http\Request\CreateSiteRequest;
-use Visiosoft\SiteModule\Jobs\NewSiteSSH;
 use Visiosoft\SiteModule\Site\Command\CreateSite;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
@@ -96,15 +93,6 @@ class ApiController extends ResourceController
 
             if ($request->has('domain')) {
                 dispatch_sync(new CreateAlias($site, $request->get('domain')));
-            }
-
-            /**
-             * Create Site in Server
-             */
-            try {
-                NewSiteSSH::dispatch($site)->delay(Carbon::now()->addSeconds(3));
-            } catch (\Exception $e) {
-                (new Log())->createLog('api_site_create', $e);
             }
 
             return response()->json([

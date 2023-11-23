@@ -1,5 +1,6 @@
 <?php namespace Visiosoft\SiteModule\Site\Command;
 
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -7,6 +8,8 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
 use Visiosoft\SiteModule\Helpers\Formatters;
+use Visiosoft\SiteModule\Helpers\Log;
+use Visiosoft\SiteModule\Jobs\NewSiteSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
@@ -41,6 +44,15 @@ class CreateSite implements ShouldQueue
         $site->setAttribute('php', $this->php);
         $site->setAttribute('basepath', $this->basepath);
         $site->save();
+
+        /**
+         * Create Site in Server
+         */
+        try {
+            NewSiteSSH::dispatch($site)->delay(Carbon::now()->addSeconds(3));
+        } catch (\Exception $e) {
+            (new Log())->createLog('api_site_create', $e);
+        }
 
         return $site;
     }
