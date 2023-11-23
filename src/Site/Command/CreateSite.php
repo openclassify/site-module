@@ -1,12 +1,18 @@
 <?php namespace Visiosoft\SiteModule\Site\Command;
 
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
 use Visiosoft\SiteModule\Helpers\Formatters;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
-class CreateSite
+class CreateSite implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected string $username;
     protected int $server_id;
     protected $basepath;
