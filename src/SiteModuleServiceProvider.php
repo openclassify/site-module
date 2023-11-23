@@ -6,7 +6,6 @@ use Visiosoft\SiteModule\Alias\AliasRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteAliasesEntryModel;
 use Visiosoft\SiteModule\Alias\AliasModel;
 use Visiosoft\SiteModule\Http\Controller\ApiController;
-use Visiosoft\SiteModule\Http\Controller\SiteController;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 use Visiosoft\SiteModule\Site\SiteRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteSiteEntryModel;
@@ -201,10 +200,6 @@ class SiteModuleServiceProvider extends AddonServiceProvider
     public function mapRouters(Router $router)
     {
         $router->group(['prefix' => 'api/sites', 'middleware' => ['apikey']], function () use ($router) {
-//            Todo: Update Api for Site Edit Screens
-//            $router->delete('/{site_id}/aliases/{alias_id}', [SiteController::class, 'destroyalias']);
-//            $router->patch('/{site_id}', [SiteController::class, 'edit']);
-
             $router->post('/', [ApiController::class, 'create']);
         });
 
