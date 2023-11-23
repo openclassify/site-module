@@ -1,6 +1,11 @@
 <?php namespace Visiosoft\SiteModule\Alias\Command;
 
 use Carbon\Carbon;
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Str;
 use Visiosoft\SiteModule\Alias\Contract\AliasInterface;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
@@ -9,8 +14,9 @@ use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Jobs\NewAliasSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 
-class CreateAlias
+class CreateAlias implements ShouldQueue
 {
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected SiteInterface $site;
     protected string $domain;
 
