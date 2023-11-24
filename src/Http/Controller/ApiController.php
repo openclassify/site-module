@@ -116,6 +116,7 @@ class ApiController extends ResourceController
                 ]
             ]);
         } catch (\Exception $exception) {
+            dd($exception);
             return $this->response->json([
                 'success' => false,
                 'message' => trans('streams::error.500.name'),
