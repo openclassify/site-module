@@ -14,10 +14,9 @@ use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Jobs\NewAliasSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 
-//class CreateAlias implements ShouldQueue
-class CreateAlias
+class CreateAlias implements ShouldQueue
 {
-//    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected SiteInterface $site;
     protected string $domain;
 

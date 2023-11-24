@@ -13,10 +13,9 @@ use Visiosoft\SiteModule\Jobs\NewSiteSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
-class CreateSite
-//class CreateSite implements ShouldQueue
+class CreateSite implements ShouldQueue
 {
-//    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     protected string $username;
     protected int $server_id;
     protected $basepath;
