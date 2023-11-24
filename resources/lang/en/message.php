@@ -7,4 +7,8 @@ return [
     'not_found' => ':name not found.',
     'ssl_started' => 'SSL installation started!',
     'ssl_checked' => 'SSL Checked!',
+    'bad_request' => 'Bad Request.',
+    'invalid_php_version' => 'Invalid PHP version.',
+    'server_not_found' => 'Server not found.',
+    'server_not_found_message' => 'Required server does not exists into panel or it is not installed yet.',
 ];
