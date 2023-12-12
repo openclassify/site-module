@@ -95,7 +95,8 @@ class ApiController extends ResourceController
             /**
              * Create Site
              */
-            $site = dispatch_sync(new CreateSite($username, $server->getId(), $request->get('basepath'), $php));
+            $siteCreator = new CreateSite($username, $server->getId(), $request->get('basepath'), $php);
+            $site = $siteCreator->handle($this->sites);
 
             dispatch_sync(new CreateAlias($site, $request->get('domain')));
 
@@ -116,7 +117,6 @@ class ApiController extends ResourceController
                 ]
             ]);
         } catch (\Exception $exception) {
-            dd($exception);
             return $this->response->json([
                 'success' => false,
                 'message' => trans('streams::error.500.name'),
