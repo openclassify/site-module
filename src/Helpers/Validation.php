@@ -19,4 +19,13 @@ class Validation
 
         return $isSiteExist->first();
     }
+
+    public function checkAppDomain()
+    {
+        if (str_contains(config('app.url'), 'localhost')) {
+            return false;
+        }
+
+        return true;
+    }
 }
