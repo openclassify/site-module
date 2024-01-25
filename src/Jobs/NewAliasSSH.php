@@ -2,6 +2,7 @@
 
 namespace Visiosoft\SiteModule\Jobs;
 
+use Carbon\Carbon;
 use phpseclib3\Net\SSH2;
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
@@ -47,5 +48,8 @@ class NewAliasSSH implements ShouldQueue
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo service php' . $this->site->getPhp() . '-fpm restart');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl restart nginx.service');
         $ssh->exec('exit');
+
+        // Create SSL
+        SslAliasSSH::dispatch($this->alias)->delay(Carbon::now()->addSeconds(3));
     }
 }
