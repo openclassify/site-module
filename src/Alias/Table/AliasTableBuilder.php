@@ -37,7 +37,7 @@ class AliasTableBuilder extends TableBuilder
      */
     protected $options = [
         'order_by' => [
-            'domain' => 'ASC'
+            'id' => 'DESC'
         ],
     ];
 
