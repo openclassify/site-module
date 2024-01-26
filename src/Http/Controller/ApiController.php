@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\SiteModule\Alias\Command\CreateAlias;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
+use Visiosoft\SiteModule\Helpers\Validation;
 use Visiosoft\SiteModule\Http\Request\CreateSiteRequest;
 use Visiosoft\SiteModule\Site\Command\CreateSite;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
@@ -90,6 +91,14 @@ class ApiController extends ResourceController
                 }
             } else {
                 $server = $this->servers->getDefaultServer();
+            }
+
+            if (!(new Validation())->checkAppDomain()) {
+                return response()->json([
+                    'success' => false,
+                    'message' => trans('module::message.check_app_domain'),
+                    'errors' => [trans('module::message.check_app_domain')]
+                ], 400);
             }
 
             /**

@@ -5,6 +5,7 @@ use Anomaly\Streams\Platform\Ui\Table\Component\Action\ActionHandler;
 use Anomaly\Streams\Platform\Ui\Table\TableBuilder;
 use Carbon\Carbon;
 use Visiosoft\SiteModule\Helpers\Log;
+use Visiosoft\SiteModule\Helpers\Validation;
 use Visiosoft\SiteModule\Jobs\DeleteSiteSSH;
 
 class Delete extends ActionHandler
@@ -29,6 +30,11 @@ class Delete extends ActionHandler
             if (count($entry->aliases)) {
                 $message = "Please remove related aliases first.";
                 $deletable = false;
+            }
+
+            if (!(new Validation())->checkAppDomain()) {
+                $deletable = false;
+                $message = trans('module::message.check_app_domain');
             }
 
             if ($entry && $deletable) {
