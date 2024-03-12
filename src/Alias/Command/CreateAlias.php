@@ -12,6 +12,7 @@ use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Visiosoft\SiteModule\Helpers\AliasStatus;
 use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Jobs\NewAliasSSH;
+use Visiosoft\SiteModule\Jobs\SslAliasSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 
 class CreateAlias implements ShouldQueue
@@ -36,6 +37,7 @@ class CreateAlias implements ShouldQueue
 
         try {
             NewAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(3));
+            SslAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(10));
         } catch (\Exception $e) {
             $alias->setAttribute('status', AliasStatus::CREATE_FAIL);
             $alias->save();

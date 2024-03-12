@@ -36,7 +36,8 @@ class NewSiteSSH implements ShouldQueue
     public function handle()
     {
         $serverPassword = $this->server->getPassword();
-        $remote = str_replace('https', 'http', config('app.url'));
+
+        $remote = env('APP_DEBUG') ? config('app.url') : str_replace('https', 'http', config('app.url'));
 
         $ssh = new SSH2($this->server->getIp(), 22);
         $ssh->login('pure', $serverPassword);
