@@ -49,7 +49,7 @@ class EditSitePhpSSH implements ShouldQueue
         $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo rpl "listen = /run/php/php'.$this->oldphp.'-fpm-'.$this->site->username.'.sock" "listen = /run/php/php'.$this->site->php.'-fpm-'.$this->site->username.'.sock" /etc/php/'.$this->site->php.'/fpm/pool.d/'.$this->site->username.'.conf');
         $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo service php'.$this->oldphp.'-fpm restart');
         $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo service php'.$this->site->php.'-fpm restart');
-        $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
     }
 }

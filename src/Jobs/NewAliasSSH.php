@@ -46,7 +46,7 @@ class NewAliasSSH implements ShouldQueue
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo dos2unix /etc/nginx/sites-available/' . $this->alias->getDomain() . '.conf');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo ln -s /etc/nginx/sites-available/' . $this->alias->getDomain() . '.conf /etc/nginx/sites-enabled/' . $this->alias->getDomain() . '.conf');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo service php' . $this->site->getPhp() . '-fpm restart');
-        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
 
         // Create SSL
