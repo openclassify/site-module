@@ -42,7 +42,7 @@ class DeleteAliasSSH implements ShouldQueue
         $ssh->setTimeout(360);
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo unlink /etc/nginx/sites-enabled/' . $this->alias->getDomain() . '.conf');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo unlink /etc/nginx/sites-available/' . $this->alias->getDomain() . '.conf');
-        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
     }
 }

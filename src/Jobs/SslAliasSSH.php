@@ -46,12 +46,12 @@ class SslAliasSSH implements ShouldQueue
         try {
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo fuser -k 80/tcp');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo fuser -k 443/tcp');
-            $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl restart nginx.service');
+            $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl reload nginx.service');
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo ufw disable');
-            $output = $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo certbot --nginx -d ' . $this->alias->domain . ' --non-interactive --agree-tos --register-unsafely-without-email');
+            $output = $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo certbot --nginx -d ' . $this->alias->domain . ' --non-interactive --redirect --agree-tos --register-unsafely-without-email');
             $ssh->exec("echo " . $site->server->password . " | sudo -S sudo sed -i 's/443 ssl/443 ssl http2/g' /etc/nginx/sites-enabled/" . $this->alias->domain . ".conf");
             $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo ufw --force enable');
-            $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl restart nginx.service');
+            $ssh->exec('echo ' . $site->server->password . ' | sudo -S sudo systemctl reload nginx.service');
             $ssh->exec('exit');
 
             $verify = dispatch(new CheckSsl("https://" . $this->alias->domain));
