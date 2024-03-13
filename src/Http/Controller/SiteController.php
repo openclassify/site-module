@@ -3,13 +3,13 @@
 namespace Visiosoft\SiteModule\Http\Controller;
 
 use Anomaly\Streams\Platform\Http\Controller\PublicController;
-use App\Jobs\EditSitePhpSSH;
 use Carbon\Carbon;
 use Visiosoft\SiteModule\Alias\AliasModel;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Visiosoft\SiteModule\Helpers\Host;
 use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Jobs\DeleteAliasSSH;
+use Visiosoft\SiteModule\Jobs\EditSitePhpSSH;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
 class SiteController extends PublicController

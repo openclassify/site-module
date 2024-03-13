@@ -6,6 +6,7 @@ use Visiosoft\SiteModule\Alias\AliasRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteAliasesEntryModel;
 use Visiosoft\SiteModule\Alias\AliasModel;
 use Visiosoft\SiteModule\Http\Controller\ApiController;
+use Visiosoft\SiteModule\Http\Controller\SiteController;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 use Visiosoft\SiteModule\Site\SiteRepository;
 use Anomaly\Streams\Platform\Model\Site\SiteSiteEntryModel;
@@ -202,6 +203,8 @@ class SiteModuleServiceProvider extends AddonServiceProvider
         $router->group(['prefix' => 'api/sites', 'middleware' => ['apikey']], function () use ($router) {
             $router->post('/', [ApiController::class, 'create']);
         });
+
+        $router->patch('/api/site/{id}', [SiteController::class, 'edit']);
 
     }
 
