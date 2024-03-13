@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace Visiosoft\SiteModule\Jobs;
 
 use phpseclib3\Net\SSH2;
 use Illuminate\Bus\Queueable;
@@ -39,8 +39,10 @@ class EditSitePhpSSH implements ShouldQueue
         $ssh = new SSH2($this->site->server->ip, 22);
         $ssh->login('pure', $this->site->server->password);
         $ssh->setTimeout(360);
+        /*
         $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo rpl -i "php'.$this->oldphp.'-fpm" "php'.$this->site->php.'-fpm" /etc/nginx/sites-available/'.$this->site->username.'.conf');
         $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo rpl -i "php'.$this->oldphp.'-fpm" "php'.$this->site->php.'-fpm" /etc/nginx/sites-enabled/'.$this->site->username.'.conf');
+        */
         foreach ($this->site->aliases as $alias) {
             $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo rpl -i "php'.$this->oldphp.'-fpm" "php'.$this->site->php.'-fpm" /etc/nginx/sites-available/'.$alias->domain.'.conf');
             $ssh->exec('echo '.$this->site->server->password.' | sudo -S sudo rpl -i "php'.$this->oldphp.'-fpm" "php'.$this->site->php.'-fpm" /etc/nginx/sites-enabled/'.$alias->domain.'.conf');
