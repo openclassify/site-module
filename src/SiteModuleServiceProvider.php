@@ -200,11 +200,16 @@ class SiteModuleServiceProvider extends AddonServiceProvider
     public function mapRouters(Router $router)
     {
         $router->group(['prefix' => 'api', 'middleware' => ['apikey']], function () use ($router) {
-            $router->group(['prefix' => 'sites', 'middleware' => ['apikey']], function () use ($router) {
+            $router->group(['prefix' => 'sites'], function () use ($router) {
                 $router->post('/', [ApiController::class, 'create']);
             });
-            $router->group(['prefix' => 'alias', 'middleware' => ['apikey']], function () use ($router) {
-                $router->post('/', [ApiController::class, 'makeSSL']);
+
+            $router->group(['prefix' => 'alias'], function () use ($router) {
+                $router->post('/', [ApiController::class, 'addDomain']);
+            });
+
+            $router->group(['prefix' => 'alias'], function () use ($router) {
+                $router->post('/ssl', [ApiController::class, 'makeSSL']);
                 $router->post('/verify', [ApiController::class, 'verifySSL']);
             });
         });

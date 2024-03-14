@@ -1,9 +1,13 @@
 <?php namespace Visiosoft\SiteModule\Alias;
 
+use Anomaly\Streams\Platform\Support\Str;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Visiosoft\SiteModule\Alias\Contract\AliasInterface;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Anomaly\Streams\Platform\Entry\EntryRepository;
+use Visiosoft\SiteModule\Helpers\AliasStatus;
+use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 
 class AliasRepository extends EntryRepository implements AliasRepositoryInterface
 {
@@ -56,5 +60,20 @@ class AliasRepository extends EntryRepository implements AliasRepositoryInterfac
         return $this->newQuery()
             ->where('domain', $domain)
             ->first();
+    }
+
+    /**
+     * @param SiteInterface $site
+     * @param string $domain
+     * @return AliasInterface
+     */
+    public function createAlias(SiteInterface $site, string $domain): AliasInterface
+    {
+        return $this->model->create([
+            'status' => AliasStatus::CREATED,
+            'alias_id' => Str::uuid(),
+            'domain' => $domain,
+            'site_id' => $site->getId()
+        ]);
     }
 }

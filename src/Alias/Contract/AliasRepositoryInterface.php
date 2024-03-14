@@ -3,6 +3,7 @@
 use Anomaly\Streams\Platform\Entry\Contract\EntryRepositoryInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Visiosoft\SiteModule\Site\Contract\SiteInterface;
 
 interface AliasRepositoryInterface extends EntryRepositoryInterface
 {
@@ -24,4 +25,11 @@ interface AliasRepositoryInterface extends EntryRepositoryInterface
      * @return mixed
      */
     public function findByDomain(string $domain);
+
+    /**
+     * @param SiteInterface $site
+     * @param string $domain
+     * @return AliasInterface
+     */
+    public function createAlias(SiteInterface $site, string $domain): AliasInterface;
 }

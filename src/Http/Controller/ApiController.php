@@ -9,8 +9,10 @@ use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\SiteModule\Alias\Command\CreateAlias;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Visiosoft\SiteModule\Helpers\Validation;
+use Visiosoft\SiteModule\Http\Request\AddDomainRequest;
 use Visiosoft\SiteModule\Http\Request\CreateSiteRequest;
 use Visiosoft\SiteModule\Http\Request\SSLRequest;
+use Visiosoft\SiteModule\Jobs\NewAliasSSH;
 use Visiosoft\SiteModule\Jobs\SslAliasSSH;
 use Visiosoft\SiteModule\Services\CheckSsl;
 use Visiosoft\SiteModule\Site\Command\CreateSite;
@@ -127,6 +129,36 @@ class ApiController extends ResourceController
                     'server_ip' => $server->getAttribute('ip'),
                     'php' => $site->getAttribute('php'),
                     'basepath' => $site->getAttribute('basepath')
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return $this->response->json([
+                'success' => false,
+                'message' => trans('streams::error.500.name'),
+                'errors' => [trans('streams::error.500.name')]
+            ], 500);
+        }
+    }
+
+    public function addDomain(AddDomainRequest $request)
+    {
+        try {
+            $request->validated();
+            $domain = $request->get('domain');
+            $siteId = $request->get('siteId');
+
+            $site = $this->sites->getSiteBySiteID($siteId);
+
+            $alias = $this->aliases->createAlias($site, $domain);
+
+            NewAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(3));
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'alias_id' => $alias->getAttribute('alias_id'),
+                    'site_id' => $alias->getSite()->getSiteID(),
+                    'domain' => $alias->getDomain(),
                 ]
             ]);
         } catch (\Exception $exception) {
