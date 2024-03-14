@@ -56,4 +56,9 @@ class AliasModel extends SiteAliasesEntryModel implements AliasInterface
     {
         return $this->ssl_status_message;
     }
+
+    public function getSite()
+    {
+        return $this->site;
+    }
 }

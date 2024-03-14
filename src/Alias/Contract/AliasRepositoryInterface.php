@@ -18,4 +18,10 @@ interface AliasRepositoryInterface extends EntryRepositoryInterface
      * @return mixed
      */
     public function findAliasBySiteID($aliasID, $siteID);
+
+    /**
+     * @param string $domain
+     * @return mixed
+     */
+    public function findByDomain(string $domain);
 }

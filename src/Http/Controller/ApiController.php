@@ -3,12 +3,16 @@
 namespace Visiosoft\SiteModule\Http\Controller;
 
 use Anomaly\Streams\Platform\Http\Controller\ResourceController;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\SiteModule\Alias\Command\CreateAlias;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
 use Visiosoft\SiteModule\Helpers\Validation;
 use Visiosoft\SiteModule\Http\Request\CreateSiteRequest;
+use Visiosoft\SiteModule\Http\Request\SSLRequest;
+use Visiosoft\SiteModule\Jobs\SslAliasSSH;
+use Visiosoft\SiteModule\Services\CheckSsl;
 use Visiosoft\SiteModule\Site\Command\CreateSite;
 use Visiosoft\SiteModule\Site\Contract\SiteRepositoryInterface;
 
@@ -125,6 +129,82 @@ class ApiController extends ResourceController
                     'basepath' => $site->getAttribute('basepath')
                 ]
             ]);
+        } catch (\Exception $exception) {
+            return $this->response->json([
+                'success' => false,
+                'message' => trans('streams::error.500.name'),
+                'errors' => [trans('streams::error.500.name')]
+            ], 500);
+        }
+    }
+
+    public function makeSSL(SSLRequest $request)
+    {
+        try {
+            $request->validated();
+            $domain = $request->get('domain');
+
+            $aliases = app(AliasRepositoryInterface::class);
+            $alias = $aliases->findByDomain($domain);
+
+            if (!$alias) {
+                return response()->json([
+                    'success' => false,
+                    'message' => trans('visiosoft.module.site::message.domain_not_found'),
+                    'errors' => [trans('visiosoft.module.site::message.domain_not_found')]
+                ], 404);
+            }
+
+            // Create SSL
+            SslAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(3));
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'alias_id' => $alias->getAttribute('alias_id'),
+                    'site_id' => $alias->getSite()->getSiteID(),
+                    'domain' => $alias->getDomain(),
+                ]
+            ]);
+        } catch (\Exception $exception) {
+            return $this->response->json([
+                'success' => false,
+                'message' => trans('streams::error.500.name'),
+                'errors' => [trans('streams::error.500.name')]
+            ], 500);
+        }
+    }
+
+    public function verifySSL(SSLRequest $request)
+    {
+        try {
+            $request->validated();
+            $domain = $request->get('domain');
+
+            $aliases = app(AliasRepositoryInterface::class);
+            $alias = $aliases->findByDomain($domain);
+
+            if (!$alias) {
+                return response()->json([
+                    'success' => false,
+                    'message' => trans('visiosoft.module.site::message.domain_not_found'),
+                    'errors' => [trans('visiosoft.module.site::message.domain_not_found')]
+                ], 404);
+            }
+
+            $verify = (new CheckSsl("https://" . $alias->getDomain()))->handle();
+            $alias->setSSLStatus($verify);
+
+            return response()->json([
+                'success' => true,
+                'data' => [
+                    'verify_ssl' => $verify,
+                    'alias_id' => $alias->getAttribute('alias_id'),
+                    'site_id' => $alias->getSite()->getSiteID(),
+                    'domain' => $alias->getDomain(),
+                ]
+            ]);
+
         } catch (\Exception $exception) {
             return $this->response->json([
                 'success' => false,

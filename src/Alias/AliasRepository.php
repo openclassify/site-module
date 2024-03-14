@@ -46,4 +46,15 @@ class AliasRepository extends EntryRepository implements AliasRepositoryInterfac
             ->where('alias_id', $aliasID)
             ->first();
     }
+
+    /**
+     * @param string $domain
+     * @return Builder|Model|mixed|object|null
+     */
+    public function findByDomain(string $domain)
+    {
+        return $this->newQuery()
+            ->where('domain', $domain)
+            ->first();
+    }
 }

@@ -11,5 +11,6 @@ return [
     'invalid_php_version' => 'Invalid PHP version.',
     'server_not_found' => 'Server not found.',
     'server_not_found_message' => 'Required server does not exists into panel or it is not installed yet.',
-    'check_app_domain' => 'Please edit the config(\'app.domain\') value. (Localhost is not acceptable).'
+    'check_app_domain' => 'Please edit the config(\'app.domain\') value. (Localhost is not acceptable).',
+    'domain_not_found' => 'Domain not found.',
 ];
