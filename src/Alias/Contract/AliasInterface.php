@@ -11,4 +11,6 @@ interface AliasInterface extends EntryInterface
     public function setSSLStatusMessage(string $message);
 
     public function getSSLStatusMessage();
+
+    public function getSite();
 }

@@ -48,8 +48,5 @@ class NewAliasSSH implements ShouldQueue
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo service php' . $this->site->getPhp() . '-fpm restart');
         $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
-
-        // Create SSL
-        SslAliasSSH::dispatch($this->alias)->delay(Carbon::now()->addSeconds(3));
     }
 }

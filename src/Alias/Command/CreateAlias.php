@@ -37,7 +37,6 @@ class CreateAlias implements ShouldQueue
 
         try {
             NewAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(3));
-            SslAliasSSH::dispatch($alias)->delay(Carbon::now()->addSeconds(10));
         } catch (\Exception $e) {
             $alias->setAttribute('status', AliasStatus::CREATE_FAIL);
             $alias->save();
