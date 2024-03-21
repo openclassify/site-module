@@ -51,7 +51,7 @@ class DeleteSiteSSH implements ShouldQueue
                 $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo unlink /etc/nginx/sites-available/' . $alias->getDomain() . '.conf');
             }
         }
-        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl restart nginx.service');
+        $ssh->exec('echo ' . $serverPassword . ' | sudo -S sudo systemctl reload nginx.service');
         $ssh->exec('exit');
     }
 }
