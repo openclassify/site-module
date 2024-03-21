@@ -39,4 +39,5 @@ EOF
 
 sudo unlink /etc/nginx/sites-enabled/$USER_NAME.conf
 sudo unlink /etc/nginx/sites-available/$USER_NAME.conf
+rm /etc/nginx/pure/$USER_NAME.conf
 sudo systemctl reload nginx.service
