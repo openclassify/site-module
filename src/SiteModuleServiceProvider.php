@@ -213,6 +213,8 @@ class SiteModuleServiceProvider extends AddonServiceProvider
                 $router->post('/ssl', [ApiController::class, 'makeSSL']);
                 $router->post('/verify', [ApiController::class, 'verifySSL']);
             });
+
+            $router->delete('/site/{site_id}/aliases/{aliases_id}', [ApiController::class, 'deleteAliases']);
         });
 
         $router->patch('/api/site/{id}', [SiteController::class, 'edit']);
