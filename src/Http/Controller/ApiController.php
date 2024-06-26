@@ -8,10 +8,13 @@ use Illuminate\Support\Str;
 use Visiosoft\ServerModule\Server\Contract\ServerRepositoryInterface;
 use Visiosoft\SiteModule\Alias\Command\CreateAlias;
 use Visiosoft\SiteModule\Alias\Contract\AliasRepositoryInterface;
+use Visiosoft\SiteModule\Helpers\AliasStatus;
+use Visiosoft\SiteModule\Helpers\Log;
 use Visiosoft\SiteModule\Helpers\Validation;
 use Visiosoft\SiteModule\Http\Request\AddDomainRequest;
 use Visiosoft\SiteModule\Http\Request\CreateSiteRequest;
 use Visiosoft\SiteModule\Http\Request\SSLRequest;
+use Visiosoft\SiteModule\Jobs\DeleteAliasSSH;
 use Visiosoft\SiteModule\Jobs\NewAliasSSH;
 use Visiosoft\SiteModule\Jobs\SslAliasSSH;
 use Visiosoft\SiteModule\Services\CheckSsl;
@@ -244,5 +247,20 @@ class ApiController extends ResourceController
                 'errors' => [trans('streams::error.500.name')]
             ], 500);
         }
+    }
+
+    public function deleteAliases($site_id, $alises_id)
+    {
+        $entry = $this->aliases->findAliasBySiteID($alises_id, $site_id);
+        if ($entry) {
+            try {
+                DeleteAliasSSH::dispatch($entry)->delay(Carbon::now()->addSeconds(1));
+            } catch (\Exception $e) {
+                $entry->setAttribute('status', AliasStatus::DELETE_FAIL);
+                $entry->save();
+                (new Log())->createLog('alias_delete', $e);
+            }
+        }
+        abort(404);
     }
 }
