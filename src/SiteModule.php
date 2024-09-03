@@ -29,6 +29,7 @@ class SiteModule extends Module
             'buttons' => [
                 'new_site',
             ],
+            'href' => "/admin/site",
         ],
         'aliases' => [
             'buttons' => [
